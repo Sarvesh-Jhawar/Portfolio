@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import {
@@ -26,9 +26,31 @@ const ProjectDetail: React.FC = () => {
 
   const project = projects.find((p) => p.id === slug);
 
+  const scrollRef = useRef<HTMLDivElement>(null);
+
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
-  }, [slug]);
+    
+    // Auto-scrolling logic for testimonials
+    let scrollInterval: NodeJS.Timeout;
+    if (project?.id === 'attendance-erp' && scrollRef.current) {
+      const scrollContainer = scrollRef.current;
+      scrollInterval = setInterval(() => {
+        if (scrollContainer) {
+          const isAtBottom = scrollContainer.scrollHeight - scrollContainer.scrollTop <= scrollContainer.clientHeight + 1;
+          if (isAtBottom) {
+            scrollContainer.scrollTo({ top: 0, behavior: 'smooth' });
+          } else {
+            scrollContainer.scrollBy({ top: 1, behavior: 'smooth' });
+          }
+        }
+      }, 50); // Adjust speed here
+    }
+
+    return () => {
+      if (scrollInterval) clearInterval(scrollInterval);
+    };
+  }, [project?.id, slug]);
 
   if (!project) {
     return (
@@ -357,7 +379,13 @@ const ProjectDetail: React.FC = () => {
                   </h2>
                 </div>
                 
-                <div className="max-h-[500px] overflow-y-auto pr-2 space-y-4 custom-scrollbar">
+                <div 
+                  ref={scrollRef}
+                  className="max-h-[500px] overflow-y-auto pr-2 space-y-4 custom-scrollbar"
+                  onMouseEnter={() => {
+                    // Optional: Pause on hover could be added if I store the interval in a ref
+                  }}
+                >
                   <motion.div
                     variants={containerVariants}
                     initial="hidden"
