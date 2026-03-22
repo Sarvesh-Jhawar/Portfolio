@@ -285,8 +285,8 @@ const UFO: React.FC<{ startPos: [number, number, number]; isDark: boolean }> = (
   
   useFrame((state, delta) => {
     const t = state.clock.getElapsedTime();
-    const cycle = 12; // Every 12 seconds
-    const progress = (t % cycle) / 4; // 4 seconds flight
+    const cycle = 15; // Every 15 seconds
+    const progress = (t % cycle) / 10; // Visible for 10 seconds (increased from 4)
     
     if (progress >= 0 && progress <= 1) {
       if (!isVisible) {
@@ -294,18 +294,18 @@ const UFO: React.FC<{ startPos: [number, number, number]; isDark: boolean }> = (
         ref.current.position.set(...startPos);
       }
       
-      // Zigzag / Wobble Movement
-      ref.current.position.x += Math.sin(t * 4) * 0.1;
-      ref.current.position.y += Math.cos(t * 2) * 0.05;
-      ref.current.position.z += 0.12; // Slow drift forward
+      // Zigzag / Wobble Movement - slightly faster and more pronounced
+      ref.current.position.x += Math.sin(t * 3) * 0.08;
+      ref.current.position.y += Math.cos(t * 1.5) * 0.04;
+      ref.current.position.z += 0.08; // Slower drift forward for more "hover" time
       
       // Wobble rotation
-      ref.current.rotation.z = Math.sin(t * 6) * 0.15;
-      ref.current.rotation.x = Math.cos(t * 3) * 0.1;
+      ref.current.rotation.z = Math.sin(t * 5) * 0.2;
+      ref.current.rotation.x = Math.cos(t * 2.5) * 0.15;
       
-      // Rotate lights
+      // Rotate lights faster
       if (lightsRef.current) {
-        lightsRef.current.rotation.y += delta * 5;
+        lightsRef.current.rotation.y += delta * 6;
       }
     } else {
       if (isVisible) setIsVisible(false);
@@ -362,8 +362,14 @@ const UFO: React.FC<{ startPos: [number, number, number]; isDark: boolean }> = (
 const RandomUFOs: React.FC<{ isDark: boolean }> = ({ isDark }) => {
   return (
     <group>
-      <UFO startPos={[-20, 10, -30]} isDark={isDark} />
-      <UFO startPos={[15, -15, -20]} isDark={isDark} />
+      {/* Background UFOs */}
+      <UFO startPos={[-25, 15, -40]} isDark={isDark} />
+      <UFO startPos={[20, -20, -35]} isDark={isDark} />
+      
+      {/* Near-UI UFOs (Closer to camera) */}
+      <UFO startPos={[-12, -8, -15]} isDark={isDark} />
+      <UFO startPos={[10, 12, -12]} isDark={isDark} />
+      <UFO startPos={[0, -18, -10]} isDark={isDark} />
     </group>
   );
 };
