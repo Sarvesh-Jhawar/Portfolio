@@ -200,6 +200,7 @@ const FloatingPlanet: React.FC<{ isDark: boolean }> = ({ isDark }) => {
   const meshRef = useRef<THREE.Mesh>(null!);
   const shaderRef = useRef<any>(null!);
   
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [_sunTexture, moonTexture] = useLoader(THREE.TextureLoader, [
     '/assets/sun.png',
     '/assets/moon.png'
