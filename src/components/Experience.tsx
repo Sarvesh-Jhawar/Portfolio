@@ -25,7 +25,7 @@ const Experience: React.FC = () => {
             Mission Log
           </h2>
           <p className={`font-body text-sm sm:text-base ${isDark ? 'text-gray-400' : 'text-gray-500'}`}>
-            // experience timeline
+            {"// experience timeline"}
           </p>
         </motion.div>
 

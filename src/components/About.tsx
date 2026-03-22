@@ -26,7 +26,7 @@ const About: React.FC = () => {
             Mission Control
           </h2>
           <p className={`font-body text-sm sm:text-base ${isDark ? 'text-gray-400' : 'text-gray-500'}`}>
-            // about.me
+            {"// about.me"}
           </p>
         </motion.div>
 

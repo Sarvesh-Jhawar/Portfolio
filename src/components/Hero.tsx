@@ -1,6 +1,6 @@
-import React, { useRef, useMemo, useEffect, Suspense } from 'react';
+import React, { useRef, useEffect, Suspense } from 'react';
 import { Canvas, useFrame, useLoader, extend, ThreeElement } from '@react-three/fiber';
-import { Sphere, shaderMaterial, useGLTF, useAnimations } from '@react-three/drei';
+import { Sphere, shaderMaterial, useAnimations } from '@react-three/drei';
 import { TypeAnimation } from 'react-type-animation';
 import { motion } from 'framer-motion';
 import { useTheme } from '../context/ThemeContext';
@@ -200,7 +200,7 @@ const FloatingPlanet: React.FC<{ isDark: boolean }> = ({ isDark }) => {
   const meshRef = useRef<THREE.Mesh>(null!);
   const shaderRef = useRef<any>(null!);
   
-  const [sunTexture, moonTexture] = useLoader(THREE.TextureLoader, [
+  const [_sunTexture, moonTexture] = useLoader(THREE.TextureLoader, [
     '/assets/sun.png',
     '/assets/moon.png'
   ]);
